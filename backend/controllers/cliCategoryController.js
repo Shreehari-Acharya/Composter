@@ -1,5 +1,20 @@
 import prisma from "../prisma/prisma.js";
 
+export async function countCategories(req, res) {
+  try{
+    const userId = req.user.id;
+
+    const count = await prisma.category.count({
+      where: { userId }
+    });
+
+    return res.status(200).json({ count });
+  } catch (err) {
+    console.error("Count Categories Error:", err);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+}
+
 export async function createCategory(req, res) {
   try {
     const { name } = req.body;

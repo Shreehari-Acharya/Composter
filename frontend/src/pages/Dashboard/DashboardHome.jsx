@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Box, ArrowUp, Clock, Star } from "lucide-react";
 import Card from "../../components/ui/Card.jsx";
 import Badge from "../../components/ui/Badge.jsx";
@@ -14,16 +14,48 @@ const StatCard = ({ title, value, change, icon: Icon }) => (
         <Icon size={20} />
       </div>
     </div>
-    <div className="flex items-center gap-2 text-xs">
-      <span className="text-emerald-400 flex items-center gap-1">
-        <ArrowUp size={12} /> {change}
-      </span>
-      <span className="text-white/40">vs last month</span>
-    </div>
+    
   </Card>
 );
 
 const DashboardHome = () => {
+  const [componentsCount, setComponentsCount] = useState(0);
+  const [categoriesCount, setCategoriesCount] = useState(0);
+
+  useEffect(() => {
+    const fetchComponentsCount = async () => {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/components/count`, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        });
+        const data = await response.json();
+        setComponentsCount(data.count);
+      } catch (error) {
+        console.error("Error fetching components count:", error);
+      }
+    };
+
+    const fetchCategoriesCount = async () => {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/categories/count`, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        });
+        const data = await response.json();
+        setCategoriesCount(data.count);
+      } catch (error) {
+        console.error("Error fetching categories count:", error);
+      }
+    };
+    fetchCategoriesCount();
+    fetchComponentsCount();
+  }, []);
+
   const recentComponents = [
     { name: "Auth Modal", type: "UI Element", date: "2 mins ago", status: "Live" },
     { name: "Data Table", type: "Layout", date: "2 hours ago", status: "Draft" },
@@ -41,8 +73,8 @@ const DashboardHome = () => {
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <StatCard title="Total Components" value="124" change="+12%" icon={Box} />
-        <StatCard title="Total Views" value="45.2k" change="+8%" icon={Star} />
+        <StatCard title="Total Components" value={componentsCount} change="+12%" icon={Box} />
+        <StatCard title="Total Categories" value={categoriesCount} change="+8%" icon={Star} />
         <StatCard title="Recent Updates" value="12" change="+24%" icon={Clock} />
         <StatCard title="Storage Used" value="1.2GB" change="+2%" icon={Box} />
       </div>

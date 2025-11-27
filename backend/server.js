@@ -31,6 +31,7 @@ app.use("/api/categories", categoryRouter);
 app.use("/api/components", componentRouter);
 //Pull Component Route
 app.use("/api/components", componentRouter);
+//Count Components Route
 
 
 //Get Current User Session

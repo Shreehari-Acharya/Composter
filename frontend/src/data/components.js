@@ -116,7 +116,7 @@ export default MagnetLines;`
 const TiltedCard = () => {
   return (
     <div className="perspective-1000 w-[300px] h-[400px] flex items-center justify-center">
-      <div className="w-full h-full bg-gradient-to-br from-violet-600 to-indigo-600 rounded-2xl shadow-2xl transform transition-transform duration-200 hover:scale-105 hover:rotate-y-12 hover:rotate-x-12 flex flex-col items-center justify-center text-white p-6">
+      <div className="w-full h-full bg-linear-to-br from-violet-600 to-indigo-600 rounded-2xl shadow-2xl transform transition-transform duration-200 hover:scale-105 hover:rotate-y-12 hover:rotate-x-12 flex flex-col items-center justify-center text-white p-6">
         <h2 className="text-3xl font-bold mb-2">3D Tilt</h2>
         <p className="text-center opacity-80">Hover to see the perspective effect.</p>
       </div>

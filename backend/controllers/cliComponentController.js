@@ -1,5 +1,20 @@
 import prisma from "../prisma/prisma.js";
 
+export async function countComponents(req, res){
+  try{
+    const userId = req.user.id;
+
+    const count = await prisma.component.count({
+      where: { userId }
+    });
+
+    return res.status(200).json({ count });
+  } catch (err) {
+    console.error("Count Components Error:", err);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+}
+
 export async function pushComponent(req, res) {
   try {
     const { title, code, category } = req.body;
@@ -42,7 +57,7 @@ export async function pushComponent(req, res) {
 
 export async function pullComponent(req, res){
   try{
-    const { category, title } = req.params;
+    const { category, title } = req.query;
     const userId = req.user?.id;
     if (!userId) return res.status(401).json({ error: "Unauthorized" });
 
