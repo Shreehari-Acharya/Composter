@@ -10,9 +10,7 @@ import prisma from "./db.js"; // Assumes db.js is in the same 'lib' folder
  */
 export function createMcpServer(userId) {
   if (!userId) {
-    throw new Error(
-      "Security Error: Cannot create MCP server without a User ID."
-    );
+    throw new Error("Security Error: Cannot create MCP server without a User ID.");
   }
 
   // 1. Initialize the Server
@@ -27,10 +25,8 @@ export function createMcpServer(userId) {
    */
   server.tool(
     "search_components",
-    {
-      query: z
-        .string()
-        .describe("Search term for component title or category name"),
+    { 
+      query: z.string().describe("Search term for component title or category name") 
     },
     async ({ query }) => {
       // SECURITY: We strictly filter by userId here
@@ -42,37 +38,26 @@ export function createMcpServer(userId) {
               OR: [
                 // Uses 'title' because that is what your schema has
                 { title: { contains: query, mode: "insensitive" } },
-                {
-                  category: { name: { contains: query, mode: "insensitive" } },
-                },
-              ],
-            },
-          ],
+                { category: { name: { contains: query, mode: "insensitive" } } }
+              ]
+            }
+          ]
         },
         include: { category: true },
         take: 10,
       });
 
       if (components.length === 0) {
-        return {
-          content: [
-            { type: "text", text: "No components found matching that query." },
-          ],
-        };
+        return { content: [{ type: "text", text: "No components found matching that query." }] };
       }
 
       // Format the list for the AI
-      const formatted = components
-        .map((c) => `- [ID: ${c.id}] ${c.title} (Category: ${c.category.name})`)
-        .join("\n");
+      const formatted = components.map(c => 
+        `- [ID: ${c.id}] ${c.title} (Category: ${c.category.name})`
+      ).join("\n");
 
       return {
-        content: [
-          {
-            type: "text",
-            text: `Found the following components:\n${formatted}`,
-          },
-        ],
+        content: [{ type: "text", text: `Found the following components:\n${formatted}` }],
       };
     }
   );
@@ -83,27 +68,22 @@ export function createMcpServer(userId) {
    */
   server.tool(
     "read_component",
-    {
-      componentName: z.string().describe("The name of the component to read"),
+    { 
+      componentName: z.string().describe("The name of the component to read") 
     },
     async ({ componentName }) => {
       // SECURITY: We match both ID and UserID
       const component = await prisma.component.findFirst({
-        where: {
+        where: { 
           title: componentName,
-          userId: userId, // <--- THE SECURITY LOCK
+          userId: userId // <--- THE SECURITY LOCK
         },
-        include: { category: true },
+        include: { category: true }
       });
 
       if (!component) {
-        return {
-          content: [
-            {
-              type: "text",
-              text: "Error: Component not found or you do not have permission to view it.",
-            },
-          ],
+        return { 
+          content: [{ type: "text", text: "Error: Component not found or you do not have permission to view it." }] 
         };
       }
 
@@ -122,7 +102,7 @@ ${component.code}
         content: [{ type: "text", text: output }],
       };
     }
-  );    
+  );
 
   return server;
 }

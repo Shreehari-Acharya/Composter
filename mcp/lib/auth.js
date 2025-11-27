@@ -28,7 +28,7 @@ export async function getLocalUser() {
     throw new Error("Corrupt session file. Please run 'composter login' again.");
   }
 
-  // Check for the token field (adjust 'jwt' if your CLI saves it as 'token' or 'accessToken')
+  
   const token = sessionData.jwt || sessionData.token || sessionData.accessToken;
 
   if (!token) {
