@@ -1,0 +1,128 @@
+// mcp/lib/factory.js
+import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { z } from "zod";
+import prisma from "./db.js"; // Assumes db.js is in the same 'lib' folder
+
+/**
+ * THE FACTORY
+ * Creates a server instance locked to a specific User ID.
+ * @param {string} userId - The ID of the authenticated user
+ */
+export function createMcpServer(userId) {
+  if (!userId) {
+    throw new Error(
+      "Security Error: Cannot create MCP server without a User ID."
+    );
+  }
+
+  // 1. Initialize the Server
+  const server = new McpServer({
+    name: "Composter Vault",
+    version: "1.0.0",
+  });
+
+  /**
+   * TOOL 1: Search Components
+   * Allows the AI to find components by title or category.
+   */
+  server.tool(
+    "search_components",
+    {
+      query: z
+        .string()
+        .describe("Search term for component title or category name"),
+    },
+    async ({ query }) => {
+      // SECURITY: We strictly filter by userId here
+      const components = await prisma.component.findMany({
+        where: {
+          AND: [
+            { userId: userId }, // <--- THE SECURITY LOCK
+            {
+              OR: [
+                // Uses 'title' because that is what your schema has
+                { title: { contains: query, mode: "insensitive" } },
+                {
+                  category: { name: { contains: query, mode: "insensitive" } },
+                },
+              ],
+            },
+          ],
+        },
+        include: { category: true },
+        take: 10,
+      });
+
+      if (components.length === 0) {
+        return {
+          content: [
+            { type: "text", text: "No components found matching that query." },
+          ],
+        };
+      }
+
+      // Format the list for the AI
+      const formatted = components
+        .map((c) => `- [ID: ${c.id}] ${c.title} (Category: ${c.category.name})`)
+        .join("\n");
+
+      return {
+        content: [
+          {
+            type: "text",
+            text: `Found the following components:\n${formatted}`,
+          },
+        ],
+      };
+    }
+  );
+
+  /**
+   * TOOL 2: Read Component Code
+   * Allows the AI to fetch the actual code.
+   */
+  server.tool(
+    "read_component",
+    {
+      componentName: z.string().describe("The name of the component to read"),
+    },
+    async ({ componentName }) => {
+      // SECURITY: We match both ID and UserID
+      const component = await prisma.component.findFirst({
+        where: {
+          title: componentName,
+          userId: userId, // <--- THE SECURITY LOCK
+        },
+        include: { category: true },
+      });
+
+      if (!component) {
+        return {
+          content: [
+            {
+              type: "text",
+              text: "Error: Component not found or you do not have permission to view it.",
+            },
+          ],
+        };
+      }
+
+      // Format the output clearly so the AI knows what file this is
+      const output = `
+Filename: ${component.title}
+Category: ${component.category.name}
+Created: ${component.createdAt.toISOString()}
+
+\`\`\`javascript
+${component.code}
+\`\`\`
+`;
+
+      return {
+        content: [{ type: "text", text: output }],
+      };
+    }
+  );    
+
+  return server;
+}
