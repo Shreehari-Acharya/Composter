@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="frontend/public/logo.png" alt="Composter Logo" width="120" height="120">
+  <img src="frontend/public/composter_logo.png" alt="Composter Logo" width="120" height="120">
 </p>
 
 <h1 align="center">Composter</h1>
