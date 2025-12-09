@@ -1,5 +1,5 @@
 {
-  "name": "composter",
+  "name": "composter-cli",
   "version": "1.0.0",
   "type": "module",
   "description": "CLI tool to manage and sync React components to your personal component vault",
