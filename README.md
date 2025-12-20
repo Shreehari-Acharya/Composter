@@ -15,10 +15,8 @@
 <p align="center">
   <a href="#features">Features</a> •
   <a href="#quick-start">Quick Start</a> •
-  <a href="#installation">Installation</a> •
   <a href="#usage">Usage</a> •
   <a href="#mcp-integration">MCP Integration</a> •
-  <a href="#links">Links</a> •
   <a href="#contributing">Contributing</a>
 </p>
 
@@ -43,98 +41,28 @@
 - MCP npm: [npmjs.com/package/composter-mcp](https://www.npmjs.com/package/composter-mcp)
 - GitHub: [github.com/binit2-1/Composter](https://github.com/binit2-1/Composter)
 
-## 🏗️ Architecture
-
-```
-Composter/
-├── backend/          # Express.js API server
-│   ├── auth/         # Better Auth configuration
-│   ├── controllers/  # Route handlers
-│   ├── prisma/       # Database schema & client
-│   └── routes/       # API routes
-├── cli/              # Command-line interface
-│   └── src/
-│       └── commands/ # CLI commands (login, push, pull, etc.)
-├── frontend/         # React + Vite dashboard
-│   └── src/
-│       ├── components/
-│       └── pages/
-└── mcp/              # Model Context Protocol server
-    ├── lib/          # Auth & tool definitions
-    └── src/          # MCP entry point
-```
-
 ## 🚀 Quick Start
 
-### Prerequisites
+### For Users (No Setup Required)
 
-- Node.js 18+
-- PostgreSQL database
-- npm or yarn
+1. **Install the CLI:**
+   ```bash
+   npm install -g composter-cli
+   ```
 
-### 1. Clone & Install
+2. **Login and start using:**
+   ```bash
+   composter login
+   composter mkcat my-category
+   composter push my-category "MyComponent" ./component.jsx
+   ```
 
-```bash
-git clone https://github.com/binit2-1/Composter.git
-cd Composter
+3. **Access the web dashboard:**
+   - Visit [composter.vercel.app](https://composter.vercel.app)
 
-# Install all dependencies
-cd backend && npm install
-cd ../cli && npm install
-cd ../frontend && npm install
-cd ../mcp && npm install
-```
+### For Contributors
 
-### 2. Configure Environment
-
-Create `.env` files in each directory:
-
-**backend/.env**
-```env
-DATABASE_URL="postgresql://user:password@localhost:5432/composter"
-CLIENT_URL="http://localhost:5173"
-BETTER_AUTH_SECRET="your-secret-key"
-```
-
-**frontend/.env**
-```env
-VITE_API_URL="http://localhost:3000"
-```
-
-**mcp/.env** (optional, for development)
-```env
-BASE_URL="http://localhost:3000"
-```
-
-### 3. Setup Database
-
-```bash
-cd backend
-npx prisma migrate dev
-npx prisma generate
-```
-
-### 4. Start Services
-
-```bash
-# Terminal 1: Backend
-cd backend && npm start
-
-# Terminal 2: Frontend
-cd frontend && npm run dev
-
-# Terminal 3: (Optional) MCP Server
-cd mcp && npm start
-```
-
-### 5. Install CLI Globally
-
-```bash
-cd cli
-npm link
-```
-
-Now you can use `composter` command anywhere!
+Want to contribute or run locally? See [CONTRIBUTING.md](CONTRIBUTING.md) for full setup instructions.
 
 ## 📖 Usage
 
@@ -162,7 +90,7 @@ composter pull buttons "PrimaryButton" ./components/
 
 ### Web Dashboard
 
-Access the dashboard at `http://localhost:5173` after starting the frontend.
+Access the dashboard at [composter.vercel.app](https://composter.vercel.app)
 
 ![Dashboard](docs/screenshots/dashboard.png)
 
@@ -247,110 +175,9 @@ If you prefer manual setup, add to your IDE's MCP config file:
 
 For detailed MCP documentation, see [mcp/README.md](mcp/README.md).
 
-### npm Package References
-- CLI: [composter-cli on npm](https://www.npmjs.com/package/composter-cli)
-- MCP: [composter-mcp on npm](https://www.npmjs.com/package/composter-mcp)
-
-## 📁 Project Structure
-
-### Backend
-
-| File/Directory | Description |
-|----------------|-------------|
-| `server.js` | Express server entry point |
-| `auth/auth.ts` | Better Auth configuration |
-| `controllers/` | API route handlers |
-| `prisma/schema.prisma` | Database schema |
-| `routes/` | API route definitions |
-
-### Frontend
-
-| Directory | Description |
-|-----------|-------------|
-| `src/pages/` | Page components (Landing, Dashboard, Auth) |
-| `src/components/ui/` | Reusable UI components |
-| `src/components/layout/` | Layout components (Sidebar, Topbar) |
-| `src/lib/` | Utilities and auth client |
-| `src/data/` | Static data and configurations |
-
-### CLI
-
-| File | Description |
-|------|-------------|
-| `src/index.js` | CLI entry point |
-| `src/commands/` | Individual command implementations |
-| `src/utils/` | Helper utilities (session, paths) |
-
-### MCP
-
-| File | Description |
-|------|-------------|
-| `src/server.js` | MCP server entry point |
-| `lib/auth.js` | JWT authentication |
-| `lib/factory.js` | MCP tool definitions |
-
-## 🔧 Development
-
-### Running in Development Mode
-
-```bash
-# Backend with hot reload
-cd backend && npm run dev
-
-# Frontend with hot reload
-cd frontend && npm run dev
-
-# MCP with inspector
-cd mcp && npm run server:inspect
-```
-
-### Database Migrations
-
-```bash
-cd backend
-
-# Create a new migration
-npx prisma migrate dev --name your_migration_name
-
-# Apply migrations
-npx prisma migrate deploy
-
-# Reset database
-npx prisma migrate reset
-```
-
-### Building for Production
-
-```bash
-# Build frontend
-cd frontend && npm run build
-
-# The build output will be in frontend/dist/
-```
-
-## 🛡️ Security
-
-- **JWT Authentication** — All API requests are authenticated
-- **User Scoping** — Components are isolated per user
-- **JWKS Verification** — MCP server verifies tokens against backend
-- **Session Management** — Secure session storage with expiry handling
-
 ## 🤝 Contributing
 
-We welcome contributions! Here's how to get started:
-
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/amazing-feature`
-3. Commit changes: `git commit -m 'Add amazing feature'`
-4. Push to branch: `git push origin feature/amazing-feature`
-5. Open a Pull Request
-
-### Development Guidelines
-
-- Follow existing code style
-- Add tests for new features
-- Update documentation as needed
-- Keep commits atomic and well-described
+We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for detailed setup instructions, development guidelines, and how to submit pull requests.
 
 ## 📄 License
 
