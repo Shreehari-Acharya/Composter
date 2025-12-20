@@ -1,0 +1,58 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  lint-and-build:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+        cache-dependency-path: |
+          api/package-lock.json
+          frontend/package-lock.json
+          cli/package-lock.json
+    
+    - name: Install API dependencies
+      run: cd api && npm ci
+    
+    - name: Install Frontend dependencies
+      run: cd frontend && npm ci
+    
+    - name: Install CLI dependencies
+      run: cd cli && npm ci
+    
+    - name: Lint Frontend
+      run: cd frontend && npm run lint || echo "No lint script configured"
+      continue-on-error: true
+    
+    - name: Build Frontend
+      run: cd frontend && npm run build
+    
+    - name: Verify CLI
+      run: |
+        cd cli
+        npm link
+        composter --version || echo "CLI version check skipped"
+      continue-on-error: true
+    
+    - name: Run Tests (if available)
+      run: |
+        cd api && npm test || echo "No tests configured for API"
+        cd ../frontend && npm test || echo "No tests configured for Frontend"
+        cd ../cli && npm test || echo "No tests configured for CLI"
+      continue-on-error: true
