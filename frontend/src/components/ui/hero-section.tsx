@@ -120,7 +120,7 @@ const AnimatedBeamSection = () => {
     return (
         <div
             ref={containerRef}
-            className="relative flex h-[350px] sm:h-[420px] w-full items-center justify-center overflow-hidden"
+            className="relative flex sm:min-h-[420px] w-full items-center justify-center"
         >
             <div className="flex size-full max-h-[300px] sm:max-h-[340px] max-w-lg flex-col items-stretch justify-between gap-8 sm:gap-10">
                 <div className="flex flex-row items-center justify-between">
@@ -152,12 +152,14 @@ const AnimatedBeamSection = () => {
                 </div>
             </div>
 
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <AnimatedBeam containerRef={containerRef} fromRef={div1Ref} toRef={div4Ref} curvature={-75} endYOffset={-10} />
             <AnimatedBeam containerRef={containerRef} fromRef={div2Ref} toRef={div4Ref} />
             <AnimatedBeam containerRef={containerRef} fromRef={div3Ref} toRef={div4Ref} curvature={75} endYOffset={10} />
             <AnimatedBeam containerRef={containerRef} fromRef={div5Ref} toRef={div4Ref} curvature={-75} endYOffset={-10} reverse />
             <AnimatedBeam containerRef={containerRef} fromRef={div6Ref} toRef={div4Ref} reverse />
             <AnimatedBeam containerRef={containerRef} fromRef={div7Ref} toRef={div4Ref} curvature={75} endYOffset={10} reverse />
+        </div>
         </div>
     )
 }
@@ -371,7 +373,7 @@ export function HeroSection() {
                 {/* Section 2: Beam Animation - Works With Your Favorite Tools */}
                 <section className="py-20 md:py-32 relative overflow-hidden">
                     <div className="mx-auto max-w-5xl px-6">
-                        <div className="text-center mb-12 md:mb-16">
+                        <div className="text-center mb-16 md:mb-16">
                             <h2 className="text-3xl sm:text-4xl md:text-5xl font-medium text-foreground mb-4">
                                 Works With Your
                                 <span className="block bg-linear-to-r from-purple-400 via-violet-400 to-purple-400 bg-clip-text text-transparent">
