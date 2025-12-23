@@ -9,5 +9,5 @@ Disallow: /api/
 Disallow: /dashboard/
 Disallow: /admin/
 
-# Sitemap (uncomment when available)
-# Sitemap: https://composter.vercel.app/sitemap.xml
+# Sitemap
+Sitemap: https://composter.vercel.app/sitemap.xml
