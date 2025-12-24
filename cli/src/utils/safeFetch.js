@@ -1,7 +1,5 @@
 import fetch from "node-fetch";
 import { FetchError } from "node-fetch";
-import fs from "fs";
-import { clearSession } from "./session.js";
 
 export async function safeFetch(url, options = {}) {
 
@@ -18,6 +16,11 @@ export async function safeFetch(url, options = {}) {
     if (err.code === "ECONNREFUSED" || err.code === "ENOTFOUND") {
       throw new FetchError("NETWORK_UNREACHABLE", 'FETCH_ERROR');
     }
+
+    if (err.name === "AbortError") {
+      throw new FetchError("NETWORK_TIMEOUT", 'FETCH_ERROR');
+    }
+
     throw new FetchError("NETWORK_ERROR", 'FETCH_ERROR');
   } finally {
     clearTimeout(timeout);
@@ -36,7 +39,9 @@ export async function safeFetch(url, options = {}) {
       throw new FetchError("SERVER_ERROR", 'FETCH_ERROR');
     }
 
-    throw new FetchError("HTTP_ERROR", 'FETCH_ERROR');
+    // Other HTTP errors will be handled by the caller
+    // these are mostly client errors (4xx) like 400, 409 etc.
+    return res;
   }
 
   return res;

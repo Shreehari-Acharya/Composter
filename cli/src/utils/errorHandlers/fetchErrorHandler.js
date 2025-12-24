@@ -9,6 +9,10 @@ export function handleFetchError(err) {
     case "SESSION_EXPIRED":
       log.warn("Your session has expired. Please log in again.");
       break;
+
+    case "NETWORK_TIMEOUT":
+      log.warn("Network request timed out. Please try again.");
+      break;
     
     case "UNAUTHORIZED":
       log.error("Invalid email or password.");
