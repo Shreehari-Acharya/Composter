@@ -322,46 +322,94 @@ const Docs = () => {
         {content.code && (
           <>
             <CodeBlock code={content.code} />
-            {content.links && (
-              <div className="flex flex-col gap-2 mt-4">
-                {(content.title !== 'Docs & Packages' && content.links.some(l => (l.href && l.href.includes('composter-mcp')) || (l.label && l.label.startsWith('MCP:')))) && (
-                  <>
-                    <h3 className={`text-lg sm:text-xl font-medium text-foreground mb-2 ${content.links.some(l => l.href && l.href.includes('composter-mcp')) ? 'mt-4' : ''}`}>Docs & Packages</h3>
-                    <p className="text-muted-foreground mb-4 font-[font]">Refer to the npm package pages for MCP usage.</p>
-                  </>
+            {id === 'cli-login' ? (
+              <>
+                {content.links && (
+                  <h3 className={`text-lg sm:text-xl font-medium text-foreground mb-2 mt-4`}>Docs & packages</h3>
                 )}
-                {content.links.map((link, idx) => (
-                  <a
-                    key={idx}
-                    href={link.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group text-muted-foreground font-mono text-sm hover:text-gray-300"
-                  >
+
+                {content.note && (
+                  <p className="text-sm text-muted-foreground mt-2">{content.note}</p>
+                )}
+
+                {content.links && (
+                  <div className="flex flex-col gap-2 mt-2">
+                    {content.links.map((link, idx) => (
+                      <a
+                        key={idx}
+                        href={link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group text-muted-foreground font-mono text-sm hover:text-gray-300"
+                      >
 {(() => {
-                      const parts = link.label.split(': ');
-                      if (parts.length === 2) {
-                        return (
-                          <>
-                            <span className="text-muted-foreground mr-1 font-[font]">{parts[0]}:</span>
-                            <span className="border-b-2 border-transparent group-hover:border-gray-300/80 transition-all font-[font]">{parts[1]}</span>
-                            <ExternalLink size={14} className="ml-2 inline-flex items-center text-muted-foreground group-hover:text-gray-300" aria-hidden />
-                          </>
-                        );
-                      }
-                      return (
-                        <>
-                          <span className="border-b-2 border-transparent group-hover:border-gray-300/80 transition-all">{link.label}</span>
-                          <ExternalLink size={14} className="ml-2 inline-flex items-center text-muted-foreground group-hover:text-gray-300" aria-hidden />
-                        </>
-                      );
-                    })()}
-                  </a>
-                ))}
-              </div>
-            )}
-            {content.note && (
-              <p className="text-sm text-muted-foreground mt-4">{content.note}</p>
+                          const parts = link.label.split(': ');
+                          if (parts.length === 2) {
+                            return (
+                              <>
+                                <span className="text-muted-foreground mr-1 font-[font]">{parts[0]}:</span>
+                                <span className="border-b-2 border-transparent group-hover:border-gray-300/80 transition-all font-[font]">{parts[1]}</span>
+                                <ExternalLink size={14} className="ml-2 inline-flex items-center align-middle text-muted-foreground group-hover:text-gray-300" aria-hidden />
+                              </>
+                            );
+                          }
+                          return (
+                            <>
+                              <span className="border-b-2 border-transparent group-hover:border-gray-300/80 transition-all">{link.label}</span>
+                              <ExternalLink size={14} className="ml-2 inline-flex items-center align-middle text-muted-foreground group-hover:text-gray-300" aria-hidden />
+                            </>
+                          );
+                        })()}
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </>
+            ) : (
+              <>
+                {content.links && (
+                  <div className="flex flex-col gap-2 mt-4">
+                    {(content.title !== 'Docs & Packages' && content.links.some(l => (l.href && l.href.includes('composter-mcp')) || (l.label && l.label.startsWith('MCP:')))) && (
+                      <>
+                        <h3 className={`text-lg sm:text-xl font-medium text-foreground mb-2 ${content.links.some(l => l.href && l.href.includes('composter-mcp')) ? 'mt-4' : ''}`}>Docs & Packages</h3>
+                        <p className="text-muted-foreground mb-4 font-[font]">Refer to the npm package pages for MCP usage.</p>
+                      </>
+                    )}
+                    {content.links.map((link, idx) => (
+                      <a
+                        key={idx}
+                        href={link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group text-muted-foreground font-mono text-sm hover:text-gray-300"
+                      >
+{(() => {
+                          const parts = link.label.split(': ');
+                          if (parts.length === 2) {
+                            return (
+                              <>
+                                <span className="text-muted-foreground mr-1 font-[font]">{parts[0]}:</span>
+                                <span className="border-b-2 border-transparent group-hover:border-gray-300/80 transition-all font-[font]">{parts[1]}</span>
+                                <ExternalLink size={14} className="ml-2 inline-flex items-center align-middle text-muted-foreground group-hover:text-gray-300" aria-hidden />
+                              </>
+                            );
+                          }
+                          return (
+                            <>
+                              <span className="border-b-2 border-transparent group-hover:border-gray-300/80 transition-all">{link.label}</span>
+                              <ExternalLink size={14} className="ml-2 inline-flex items-center align-middle text-muted-foreground group-hover:text-gray-300" aria-hidden />
+                            </>
+                          );
+                        })()}
+                      </a>
+                    ))}
+                  </div>
+                )}
+
+                {content.note && (
+                  <p className="text-sm text-muted-foreground mt-4">{content.note}</p>
+                )}
+              </>
             )}
           </>
         )}
