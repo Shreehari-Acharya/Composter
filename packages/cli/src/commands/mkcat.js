@@ -10,7 +10,7 @@ export async function mkcat(categoryName) {
     categoryName.length > 10
   ) {
     log.warn(
-      "Invalid category name. It must be non-empty, without spaces, and ≤ 10 characters."
+      "Invalid category name. It must be non-empty, without spaces, and at most 10 characters."
     );
     process.exit(1);
   }
