@@ -10,7 +10,7 @@ export async function pullComponent(category, title, targetDir) {
     // although commander ensures these are provided, we double-check here
     if (!category?.trim() || !title?.trim() || !targetDir?.trim()) {
         log.error("Category, title, and target directory are required.");
-        return;
+        process.exit(1);
     }
  
     // 2. Resolve Target Directory
