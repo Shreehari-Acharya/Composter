@@ -1,11 +1,11 @@
 {
   "$schema": "http://json.schemastore.org/package",
-  "name": "frontend",
+  "name": "@composter/web",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --port 5173",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"

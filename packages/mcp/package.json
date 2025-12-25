@@ -1,6 +1,7 @@
 {
-  "name": "composter-mcp",
+  "name": "@composter/mcp",
   "version": "2.0.0",
+  "private": false,
   "type": "module",
   "description": "MCP (Model Context Protocol) server for Composter - Let AI assistants access your React component vault",
   "main": "src/server.js",
