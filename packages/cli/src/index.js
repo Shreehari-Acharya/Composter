@@ -27,6 +27,9 @@ program
       if (str.includes("error:")) log.error(str.trim());
       else log.info(str.trim());
     },
+    writeOut: (str) => {
+      log.info(str.trim());
+    },
   });
 
 program

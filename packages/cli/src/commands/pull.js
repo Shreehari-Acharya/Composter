@@ -28,7 +28,7 @@ export async function pullComponent(category, title, targetDir) {
         let body = null;
         try { body = await res.json(); } catch {}
 
-        const component = body.component;
+        const component = body.component ?? null;
 
         // PARSE FILES (Handle JSON vs String) 
         let filesMap = {};

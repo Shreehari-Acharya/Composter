@@ -1,5 +1,6 @@
 import chalk from "chalk";
 import { apiRequest } from "../utils/request.js";
+import { log } from "../utils/log.js";
 
 export async function listCategories() {
 
@@ -20,7 +21,7 @@ export async function listCategories() {
 
   const categories = body?.categories || [];
   if (categories.length === 0) {
-    console.log("No categories found.");
+    log.info("No categories found.");
     return;
   }
   categories.forEach((cat) => {

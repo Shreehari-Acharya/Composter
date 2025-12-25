@@ -26,7 +26,7 @@ export function handleSessionError(err) {
       log.error("An unexpected error occurred.");
   }
 
-  if (process.env.DEBUG) {
+  if (process.env.DEBUG === "1" || process.env.DEBUG === "true") {
     console.error(err);
   }
 }

@@ -37,6 +37,7 @@ export async function apiRequest(path, options = {}) {
           process.exit(1);
         }
         handleFetchError(error);
+        process.exit(1);
       }
   }
 
