@@ -1,3 +1,4 @@
+import chalk from "chalk";
 import { apiRequest } from "../utils/request.js";
 
 export async function listCategories() {
@@ -24,7 +25,7 @@ export async function listCategories() {
   }
   categories.forEach((cat) => {
     //list them adjacent to each other with tab space between
-    process.stdout.write(`${cat.name}\t\t`);
+    process.stdout.write(chalk.cyan.bold(cat.name) + "\t\t");
   });
   console.log();
   return;

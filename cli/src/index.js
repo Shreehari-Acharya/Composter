@@ -22,7 +22,8 @@ program
   .configureOutput({
     // Override the default error handling to use our custom handler
     writeErr: (str) => {
-      log.error(str.trim());
+      if (str.includes("error:")) log.error(str.trim());
+      else log.info(str.trim());
     },
   });
 
@@ -75,7 +76,7 @@ process.on("unhandledRejection", (err) => {
     err?.name === "AbortError" ||
     err?.name === "ExitPromptError"
   ) {
-    process.stdout.write("\nOperation cancelled by user.\n");
+    log.info("\nOperation cancelled by user.\n");
     process.exit(130);
   }
 
@@ -83,4 +84,5 @@ process.on("unhandledRejection", (err) => {
   process.exit(1);
 });
 
-  await program.parseAsync(process.argv);
+  // await program.parseAsync(process.argv);
+program.parse(process.argv);

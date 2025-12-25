@@ -19,7 +19,7 @@ export function handleFetchError(err) {
       break;
 
     case "NOT_FOUND":
-      log.error("Requested resource not found.");
+      log.error("Requested resource does not exist.");
       break;
 
     case "SERVER_ERROR":
@@ -30,7 +30,7 @@ export function handleFetchError(err) {
       log.error("An unexpected error occurred.");
   }
 
-  if (process.env.DEBUG) {
+  if (process.env.DEBUG === "1" || process.env.DEBUG === "true") {
     console.error(err);
   }
 }
