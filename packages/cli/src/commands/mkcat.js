@@ -36,9 +36,7 @@ export async function mkcat(categoryName) {
 
     // handling server sent errors, like duplicate category
     const msg =
-      body.error ||
-      body.message ||
-      JSON.stringify(body) ||
+      (body && (body.error || body.message || JSON.stringify(body))) ||
       `HTTP ${res.status}`;
 
     log.error(`Failed to create category: ${msg}`);
