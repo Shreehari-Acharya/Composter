@@ -4,6 +4,9 @@ import auth from "./auth/auth.js";
 import cors from "cors";
 import categoryRouter from "./routes/cliCategoryRoute.js";
 import componentRouter from "./routes/cliComponentRoute.js";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -59,8 +62,10 @@ app.get("/api/me", async (req, res) => {
   return res.json(session);
 });
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
-});
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(port, () => {
+    console.log(`API listening on port ${port}`);
+  });
+}
 
 export default app;
