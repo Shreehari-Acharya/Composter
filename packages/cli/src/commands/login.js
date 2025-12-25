@@ -29,7 +29,7 @@ export async function login() {
 
   try {
 
-    // step one: get session cookie
+    // Step 1: Sign in with email and password to obtain session cookie
     const res = await safeFetch(`${BASE_URL}/sign-in/email`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
