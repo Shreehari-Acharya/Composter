@@ -8,6 +8,7 @@ import { pushComponent } from "./commands/push.js";
 import { pullComponent } from "./commands/pull.js";
 import { initMcp } from "./commands/init.js";
 import { createRequire } from "module";
+import { log } from "./utils/log.js";
 
 const require = createRequire(import.meta.url);
 const packageJson = require("../package.json");
@@ -17,7 +18,13 @@ const program = new Command();
 program
   .name("composter")
   .description("CLI for Composter Platform")
-  .version(packageJson.version);
+  .version(packageJson.version)
+  .configureOutput({
+    // Override the default error handling to use our custom handler
+    writeErr: (str) => {
+      log.error(str.trim());
+    },
+  });
 
 program
   .command("login")
@@ -76,4 +83,4 @@ process.on("unhandledRejection", (err) => {
   process.exit(1);
 });
 
-program.parse(process.argv);
+  await program.parseAsync(process.argv);
