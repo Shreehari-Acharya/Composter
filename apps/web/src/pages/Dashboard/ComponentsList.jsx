@@ -15,7 +15,9 @@ const ComponentCard = ({ comp, formatTimeAgo, onDeleteClick }) => {
         ? JSON.parse(comp.dependencies) 
         : comp.dependencies;
       depsCount = Object.keys(deps).length;
-    } catch (e) {}
+    } catch {
+      // ignore parse errors for dependency metadata
+    }
   }
 
   const handleDelete = (e) => {

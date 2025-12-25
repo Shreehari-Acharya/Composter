@@ -189,7 +189,6 @@ const UploadComponent = () => {
   const [newCategory, setNewCategory] = useState("");
   const [isCreatingCategory, setIsCreatingCategory] = useState(false);
   const [categories, setCategories] = useState([]);
-  const [loadingCategories, setLoadingCategories] = useState(true);
   
   // File structure state - now with full paths
   const [files, setFiles] = useState([
@@ -225,7 +224,7 @@ const UploadComponent = () => {
       } catch (err) {
         console.error("Error fetching categories:", err);
       } finally {
-        setLoadingCategories(false);
+        // loadingCategories state removed; nothing to toggle here
       }
     };
     fetchCategories();

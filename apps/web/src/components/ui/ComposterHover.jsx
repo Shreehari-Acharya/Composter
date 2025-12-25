@@ -1,5 +1,6 @@
 import React from "react";
 import composterLogo from "@/assets/composter-logos/no_bg.png";
+// eslint-disable-next-line no-unused-vars
 import { motion } from "framer-motion";
 
 const ComposterHover = ({ size = 300, className = "" }) => {

@@ -82,7 +82,7 @@ const ComponentDetail = () => {
       } else {
         files = { "/App.js": component.code };
       }
-    } catch (e) {
+    } catch {
       files = { "/App.js": component.code };
     }
 

@@ -3,6 +3,7 @@ import { Box, Folder, ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Card from "../../components/ui/Card.jsx";
 
+// eslint-disable-next-line no-unused-vars
 const StatCard = ({ title, value, icon: Icon }) => (
   <Card className="h-full">
     <div className="flex items-start justify-between">

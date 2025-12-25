@@ -51,6 +51,7 @@ const CodeBlock = ({ code, showLineNumbers = true }) => {
 };
 
 // Method selection card
+// eslint-disable-next-line no-unused-vars
 const MethodCard = ({ icon: Icon, label, active, onClick }) => (
   <button
     onClick={onClick}
